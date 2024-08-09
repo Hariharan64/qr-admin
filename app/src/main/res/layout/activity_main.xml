@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/employeeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Employee Name" />
+
+    <EditText
+        android:id="@+id/employeeNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Employee Number"
+        android:layout_below="@id/employeeName"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/employeeId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Employee ID"
+        android:layout_below="@id/employeeNumber"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/phoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone Number"
+        android:layout_below="@id/employeeId"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:layout_below="@id/phoneNumber"
+        android:layout_marginTop="16dp" />
+</RelativeLayout>
