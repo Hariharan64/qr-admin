@@ -41,4 +41,14 @@
         android:text="Submit"
         android:layout_below="@id/phoneNumber"
         android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_marginTop="400dp"
+
+        android:layout_height="wrap_content"
+
+
+        />
 </RelativeLayout>

@@ -1,6 +1,8 @@
 package com.example.qradmin;
 
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
     // Firebase Database Reference
     private DatabaseReference databaseReference;
+    Button btn;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +38,16 @@ public class MainActivity extends AppCompatActivity {
         employeeIdEditText = findViewById(R.id.employeeId);
         phoneNumberEditText = findViewById(R.id.phoneNumber);
         submitButton = findViewById(R.id.submitButton);
+        btn=findViewById(R.id.btn);
+
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,HomeActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Set click listener for submit button
         submitButton.setOnClickListener(new View.OnClickListener() {
