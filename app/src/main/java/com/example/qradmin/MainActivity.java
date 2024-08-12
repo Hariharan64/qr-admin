@@ -1,8 +1,6 @@
 package com.example.qradmin;
 
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,84 +14,55 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText employeeNameEditText, employeeNumberEditText, employeeIdEditText, phoneNumberEditText;
-    private Button submitButton;
-
-    // Firebase Database Reference
+    private EditText editTextName, editTextDesignation, editTextUserId, editTextPhoneNumber;
+    private Button buttonSaveUser;
     private DatabaseReference databaseReference;
-    Button btn;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize Firebase Database
-        databaseReference = FirebaseDatabase.getInstance().getReference("employees");
+        // Initialize Firebase Database reference
+        databaseReference = FirebaseDatabase.getInstance().getReference("users");
 
         // Initialize UI elements
-        employeeNameEditText = findViewById(R.id.employeeName);
-        employeeNumberEditText = findViewById(R.id.employeeNumber);
-        employeeIdEditText = findViewById(R.id.employeeId);
-        phoneNumberEditText = findViewById(R.id.phoneNumber);
-        submitButton = findViewById(R.id.submitButton);
-        btn=findViewById(R.id.btn);
+        editTextName = findViewById(R.id.editTextName);
+        editTextDesignation = findViewById(R.id.editTextDesignation);
+        editTextUserId = findViewById(R.id.editTextUserId);
+        editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
+        buttonSaveUser = findViewById(R.id.buttonSaveUser);
 
-
-        btn.setOnClickListener(new View.OnClickListener() {
+        buttonSaveUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,HomeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // Set click listener for submit button
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitEmployeeData();
+                saveUser();
             }
         });
     }
 
-    private void submitEmployeeData() {
-        String employeeName = employeeNameEditText.getText().toString().trim();
-        String employeeNumber = employeeNumberEditText.getText().toString().trim();
-        String employeeId = employeeIdEditText.getText().toString().trim();
-        String phoneNumber = phoneNumberEditText.getText().toString().trim();
+    private void saveUser() {
+        String name = editTextName.getText().toString().trim();
+        String designation = editTextDesignation.getText().toString().trim();
+        String userId = editTextUserId.getText().toString().trim();
+        String phoneNumber = editTextPhoneNumber.getText().toString().trim();
 
-        if (employeeName.isEmpty() || employeeNumber.isEmpty() || employeeId.isEmpty() || phoneNumber.isEmpty()) {
-            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+        if (name.isEmpty() || designation.isEmpty() || userId.isEmpty() || phoneNumber.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Generate a unique key for each entry
-        String id = databaseReference.push().getKey();
+        // Create a User object
+        User user = new User(name, designation, userId, phoneNumber);
 
-        // Create a new Employee object
-        Employee employee = new Employee(employeeName, employeeNumber, employeeId, phoneNumber);
-
-        // Save the employee object in the database
-        if (id != null) {
-            databaseReference.child(id).setValue(employee)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "Employee data saved", Toast.LENGTH_SHORT).show();
-                            // Clear the form for new entries
-                            clearForm();
-                        } else {
-                            Toast.makeText(MainActivity.this, "Failed to save data", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
-
-    private void clearForm() {
-        employeeNameEditText.setText("");
-        employeeNumberEditText.setText("");
-        employeeIdEditText.setText("");
-        phoneNumberEditText.setText("");
+        // Save the User object to Firebase Realtime Database
+        databaseReference.child(userId).setValue(user)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(MainActivity.this, "User saved successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Failed to save user", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
