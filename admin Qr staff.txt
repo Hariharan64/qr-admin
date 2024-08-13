@@ -1,0 +1,186 @@
+admin Qr
+
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+
+
+        <Button
+            android:id="@+id/btn_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Scan Barcode"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_scan"
+            android:layout_marginTop="20dp"
+            android:text="Scan result will appear here"
+            android:textSize="16sp" />
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="850dp"
+
+            >
+            <Button
+                android:id="@+id/button_show_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show Image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="300dp"
+                android:layout_alignParentTop="true"/>
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+               android:layout_marginTop="10dp"
+
+                android:visibility="gone" />
+
+
+
+            <Button
+                android:id="@+id/button_show_ima"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Technology"
+                android:layout_marginTop="240dp"
+                android:layout_centerHorizontal="true"
+
+                android:layout_below="@id/button_show_image"
+
+                android:layout_alignParentTop="true"/>
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:visibility="gone" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </RelativeLayout>
+
+
+
+
+    </ScrollView>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+__________________________________________________________________________________________________
+
+package com.example.qradmin;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class HomeActivity extends AppCompatActivity {
+
+    private Button btnScan;
+    private TextView tvResult;
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+
+        Button buttonShowImage = findViewById(R.id.button_show_image);
+        ImageView imageView = findViewById(R.id.image_view);
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+        Button button=findViewById(R.id.button_show_ima);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+        ImageView img=findViewById(R.id.image);
+
+        // Set the image resource
+        imageView.setImageResource(R.drawable.qr);
+
+        img.setImageResource(R.drawable.qr);
+
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (imageView.getVisibility() == View.GONE) {
+                    imageView.setVisibility(View.VISIBLE);
+                } else {
+                    imageView.setVisibility(View.GONE);
+                }
+
+
+            }
+        });// Replace 'your_image_name' with the actual image name
+
+        buttonShowImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Toggle visibility of the ImageView
+                if (imageView.getVisibility() == View.GONE) {
+                    imageView.setVisibility(View.VISIBLE);
+                } else {
+                    imageView.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+}
+
+
+
+
