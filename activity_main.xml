@@ -1,20 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/phoneNumberEditText"
+        android:id="@+id/editTextPhoneNumber"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter phone number"
-        android:inputType="phone"/>
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:hint="Enter Phone Number"
+        android:inputType="phone" />
 
     <Button
-        android:id="@+id/submitButton"
+        android:id="@+id/buttonAddPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"/>
-</LinearLayout>
+        android:layout_below="@id/editTextPhoneNumber"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:text="Add Phone Number" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonAddPhone"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+</RelativeLayout>

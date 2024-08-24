@@ -1,53 +1,61 @@
 package com.example.qradmin;
 
+
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DatabaseReference mDatabase;
-    private EditText phoneNumberEditText;
-    private Button submitButton;
+    private EditText editTextPhoneNumber;
+    private Button buttonAddPhone;
+    private ProgressBar progressBar;
+
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize Firebase Database reference
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
+        buttonAddPhone = findViewById(R.id.buttonAddPhone);
+        progressBar = findViewById(R.id.progressBar);
 
-        phoneNumberEditText = findViewById(R.id.phoneNumberEditText);
-        submitButton = findViewById(R.id.submitButton);
+        databaseReference = FirebaseDatabase.getInstance().getReference("AdminPhoneNumbers");
 
-        submitButton.setOnClickListener(v -> {
-            String phoneNumber = phoneNumberEditText.getText().toString().trim();
-            if (!phoneNumber.isEmpty()) {
-                // Generate a unique key for each user
-                String userId = mDatabase.push().getKey();
-                if (userId != null) {
-                    // Create a new User object
-                    User user = new User(phoneNumber);
+        buttonAddPhone.setOnClickListener(v -> {
+            String phoneNumber = editTextPhoneNumber.getText().toString().trim();
 
-                    // Store the user with the unique ID
-                    mDatabase.child("users").child(userId).setValue(user)
-                            .addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(MainActivity.this, "Phone number saved with ID: " + userId, Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(MainActivity.this, "Failed to save phone number.", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                }
-            } else {
-                Toast.makeText(MainActivity.this, "Phone number cannot be empty.", Toast.LENGTH_SHORT).show();
+            if (phoneNumber.isEmpty() || phoneNumber.length() < 10) {
+                editTextPhoneNumber.setError("Please enter a valid phone number");
+                editTextPhoneNumber.requestFocus();
+                return;
             }
+
+            progressBar.setVisibility(View.VISIBLE);
+            addPhoneNumberToDatabase(phoneNumber);
         });
+    }
+
+    private void addPhoneNumberToDatabase(String phoneNumber) {
+        databaseReference.child(phoneNumber).setValue(true)
+                .addOnCompleteListener(task -> {
+                    progressBar.setVisibility(View.GONE);
+                    if (task.isSuccessful()) {
+                        Toast.makeText(MainActivity.this, "Phone number added successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Failed to add phone number", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
